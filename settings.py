@@ -30,3 +30,36 @@ INSTALLED_APPS = (
     'factory',
     'smsaero',
 )
+
+LOGGING = {
+    'version': '1',
+    'disable_existing_loggers': False,
+    'handlers':{
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler'
+        },
+    'logfile': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.WatchedFileHandler',
+            'filename': join(ROOT, 'logfile.log'),
+        }
+    },
+    'loggers':{
+        'smsaero':{
+            'handlers': ['mail_admins', 'logfile'],
+            'level': 'ERROR',
+            'propagate': True
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+

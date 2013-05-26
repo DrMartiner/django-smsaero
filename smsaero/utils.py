@@ -6,7 +6,9 @@ from urllib import quote_plus, urlencode
 import conf as settings
 from models import Signature
 from models import SMSMessage
+import logging
 
+logger = logging.getLogger('smsaero')
 
 class SmsSender():
     PROTOCOL = 'http'
@@ -25,7 +27,7 @@ class SmsSender():
             response = urllib2.urlopen(url)
             return response.read()
         except Exception, e:
-            # TODO: use the logger
+            logger.error(e)
             return 'connection error'
 
     def _get_password(self):
