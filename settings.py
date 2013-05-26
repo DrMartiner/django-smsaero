@@ -32,7 +32,7 @@ INSTALLED_APPS = (
 )
 
 LOGGING = {
-    'version': '1',
+    'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
@@ -47,7 +47,7 @@ LOGGING = {
     'logfile': {
             'level': 'DEBUG',
             'class': 'logging.handlers.WatchedFileHandler',
-            'filename': join(ROOT, 'logfile.log'),
+            'filename': os.path.join(ROOT, 'logfile.log'),
             'formatter': 'verbose'
         }
     },
