@@ -34,6 +34,11 @@ INSTALLED_APPS = (
 LOGGING = {
     'version': '1',
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(funcName)s %(message)s'
+        }
+    },
     'handlers':{
         'mail_admins': {
             'level': 'ERROR',
@@ -43,6 +48,7 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.handlers.WatchedFileHandler',
             'filename': join(ROOT, 'logfile.log'),
+            'formatter': 'verbose'
         }
     },
     'loggers':{
