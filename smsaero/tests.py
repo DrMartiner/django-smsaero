@@ -4,15 +4,10 @@ from mock import patch
 from hashlib import md5
 from django.test import TestCase
 from .utils import SmsSender
-from django.test.utils import override_settings
-from django.conf import settings
 from .utils import send_sms
-from .utils import get_sms_status
-from .utils import get_balance
-from .utils import get_signatures_name
-from .models import Signature
 from .models import SMSMessage
 from .factoey import SignatureF
+from .factoey import SMSMessageF
 
 
 class SmsSenderTest(TestCase):
@@ -74,8 +69,22 @@ class SmsSenderTest(TestCase):
 
 
 class SmsAeroAPITest(TestCase):
+    def _get_sms(self, to, text):
+        return '0=accepted'
+
+    @patch('smsaero.utils.SmsSender.send_request', _get_sms)
     def test_send_sms(self):
-        pass
+        signature = SignatureF()
+        signature.save()
+
+        sent_sms = send_sms('71234567890', 'Message0')
+        sms = SMSMessageF()
+
+        self.assertEquals(sent_sms.phone, sms.phone, 'Not equals phone of sent SMS')
+        self.assertEquals(sent_sms.text, sms.text, 'Not equals text of sent SMS')
+        self.assertEquals(sent_sms.sms_id, str(sms.sms_id), 'Not equals SMS ID in response')
+        self.assertEquals(sent_sms.status, SMSMessage.STATUS_ACCEPTED, 'Status of sent SMS is not ACCEPTED')
+        self.assertEquals(sent_sms.signature, signature, 'Not equals signature of sent SMS')
 
     def test_get_sms_status(self):
         pass
