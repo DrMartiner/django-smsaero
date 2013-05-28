@@ -11,6 +11,7 @@ tests_require = [
     'nose>1.3',
     'mock==1.0.1',
     'coveralls',
+    'factory_boy',
 ]
 
 setup(
@@ -38,5 +39,6 @@ setup(
     ],
     install_requires=[
         'urllib3',
+        'factory_boy',
     ],
 )
