@@ -11,7 +11,13 @@ class SMSMessageAdmin(admin.ModelAdmin):
     list_display_links = ('signature',)
     search_fields = ('text', 'signature__name')
 
+    can_delete = False
+
+    def has_add_permission(self, request):
+        return False
+
     # TODO: send after saving if selected check
+
 
 admin.site.register(Signature)
 admin.site.register(SMSMessage, SMSMessage)
