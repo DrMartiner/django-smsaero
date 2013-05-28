@@ -19,3 +19,7 @@ build
 dist
 *.egg-info
 logfile.log
+
+build/*
+dist/*
+django_smsaero.egg-info/*w
