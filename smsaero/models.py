@@ -55,7 +55,7 @@ class SMSMessage(models.Model):
     text = models.TextField('Текст')
     sms_id = models.IntegerField('ID SMS', db_index=True, blank=True, null=True, editable=False)
     status = models.CharField('Статус', max_length=128)
-    created = models.DateTimeField('Создано', auto_created=True)
+    created = models.DateTimeField('Создано', auto_now_add=True)
 
     def __unicode__(self):
         return '{0} <{1}>'.format(self.phone, self.get_status_display())
