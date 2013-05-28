@@ -10,6 +10,7 @@ import logging
 
 logger = logging.getLogger('smsaero')
 
+
 class SmsSender():
     PROTOCOL = 'http'
     URL = 'gate.smsaero.ru'
@@ -26,8 +27,8 @@ class SmsSender():
         try:
             response = urllib2.urlopen(url)
             return response.read()
-        except Exception, e:
-            logger.error(e)
+        except urllib2.HTTPErrorProcessor:
+            logger.error('connection error', exc_info=True)
             return 'connection error'
 
     def _get_password(self):
@@ -62,7 +63,7 @@ def send_sms(to, text, signature_id=None, date=None, link='/send/'):
         'date': date or '',
     }
     response = sender.send_request(link, params)
-    status, sms_id = sender.parse_response(response)
+    sms_id, status = sender.parse_response(response)
 
     sms = SMSMessage(
         phone=to,
