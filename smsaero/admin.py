@@ -20,4 +20,4 @@ class SMSMessageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Signature)
-admin.site.register(SMSMessage, SMSMessage)
+admin.site.register(SMSMessage, SMSMessageAdmin)
