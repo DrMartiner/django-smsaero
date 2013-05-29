@@ -61,6 +61,6 @@ class SMSMessage(models.Model):
         return '{0} <{1}>'.format(self.phone, self.get_status_display())
 
     class Meta:
-        ordering = ('created', )
+        ordering = ('-created', )
         verbose_name = 'Сообщение'
         verbose_name_plural = 'SMS сообщения'
