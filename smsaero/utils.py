@@ -15,7 +15,7 @@ class SmsSender():
     PROTOCOL = 'http'
     URL = 'gate.smsaero.ru'
 
-    def send_request(self, link, params):
+    def send_request(self, params, link):
         params['user'] = settings.SMSAERO_USER
         params['password'] = self._get_password()
         url = '%s://%s%s%s' % (
@@ -78,7 +78,7 @@ def send_sms(to, text, signature_id=None, date=None, link='/send/'):
 
 def get_sms_status(sms_id, link='/status/'):
     response = sender.send_request({'id': sms_id}, link)
-    status, sms_id = sender.parse_response(response)
+    sms_id, status = sender.parse_response(response)
     return status
 
 

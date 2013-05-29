@@ -5,6 +5,9 @@ from hashlib import md5
 from django.test import TestCase
 from .utils import SmsSender
 from .utils import send_sms
+from .utils import get_sms_status
+from .utils import get_balance
+from .utils import get_signatures_name
 from .models import SMSMessage
 from .factoey import SignatureF
 from .factoey import SMSMessageF
@@ -14,7 +17,7 @@ class SmsSenderTest(TestCase):
     def test_send_request(self):
         sender = SmsSender()
         sender.URL = 'foo.bar'
-        status = sender.send_request('', {})
+        status = sender.send_request({}, '')
         self.assertEqual(status, SMSMessage.STATUS_CONNECTION)
 
     @patch('smsaero.conf.SMSAERO_PASSWORD', 'FAKE')
@@ -72,6 +75,16 @@ class SmsAeroAPITest(TestCase):
     def _get_sms(self, to, text):
         return '0=accepted'
 
+    def _get_status(self, link, params):
+        return '0=delivery success'
+
+    def _get_balance(self, link, params):
+        return 'balance=12345'
+
+    def _get_signatures_name(self, link, params):
+        return 'Sender_one\nSender_two\nSender_three'
+
+
     @patch('smsaero.utils.SmsSender.send_request', _get_sms)
     def test_send_sms(self):
         signature = SignatureF()
@@ -86,11 +99,25 @@ class SmsAeroAPITest(TestCase):
         self.assertEquals(sent_sms.status, SMSMessage.STATUS_ACCEPTED, 'Status of sent SMS is not ACCEPTED')
         self.assertEquals(sent_sms.signature, signature, 'Not equals signature of sent SMS')
 
+
+    @patch('smsaero.utils.SmsSender.send_request', _get_status)
     def test_get_sms_status(self):
-        pass
+        sms_status = get_sms_status(0)
 
+        self.assertEquals(sms_status, SMSMessage.STATUS_DELIVERY_SUCCESS, 'SMS status is not DELIVERY_SUCCESS')
+
+
+    @patch('smsaero.utils.SmsSender.send_request', _get_balance)
     def test_get_balance(self):
-        pass
+        sms_balance = get_balance()
+        balance = '12345'
 
+        self.assertEquals(sms_balance, balance, 'Not equals SMS balance')
+
+
+    @patch('smsaero.utils.SmsSender.send_request', _get_signatures_name)
     def test_get_signatures_name(self):
-        pass
+        signatures_name = get_signatures_name()
+        signatures_fake = ['Sender_one', 'Sender_two', 'Sender_three']
+
+        self.assertEquals(signatures_name, signatures_fake, 'Not equals signatures')

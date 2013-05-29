@@ -39,21 +39,17 @@ LOGGING = {
             'format': '%(levelname)s %(asctime)s %(module)s %(funcName)s %(message)s'
         }
     },
-    'handlers':{
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'django.utils.log.AdminEmailHandler'
-        },
-    'logfile': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.WatchedFileHandler',
-            'filename': os.path.join(ROOT, 'logfile.log'),
-            'formatter': 'verbose'
-        }
+    'handlers': {
+        'sms_send': {
+                'level': 'DEBUG',
+                'class': 'logging.handlers.WatchedFileHandler',
+                'filename': os.path.join(ROOT, 'sms_send.log'),
+                'formatter': 'verbose'
+            }
     },
-    'loggers':{
-        'smsaero':{
-            'handlers': ['mail_admins', 'logfile'],
+    'loggers': {
+        'smsaero': {
+            'handlers': ['sms_send'],
             'level': 'ERROR',
             'propagate': True
         }
