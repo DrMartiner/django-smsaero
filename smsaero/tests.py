@@ -11,11 +11,18 @@ from .factoey import SMSMessageF
 
 
 class SmsSenderTest(TestCase):
+    def _fake_urlopen(self):
+        class FakeStreamReader(object):
+            def read(self):
+                return '123=accepted'
+        return FakeStreamReader()
+
+    @patch('smsaero.conf.SMSAERO_PASSWORD', 'FAKE')
+    @patch('urllib2.urlopen', _fake_urlopen)
     def test_send_request(self):
         sender = SmsSender()
-        sender.URL = 'foo.bar'
-        status = sender.send_request('', {})
-        self.assertEqual(status, SMSMessage.STATUS_CONNECTION)
+        response = sender.send_request('/link/', {})
+        self.assertIn(SMSMessage.STATUS_ACCEPTED, response)
 
     @patch('smsaero.conf.SMSAERO_PASSWORD', 'FAKE')
     @patch('smsaero.conf.SMSAERO_PASSWORD_MD5', '')
