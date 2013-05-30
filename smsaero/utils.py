@@ -1,32 +1,37 @@
 # -*- coding: utf-8 -*-
 
+import logging
 import urllib2
 from hashlib import md5
-from urllib import quote_plus, urlencode
-import conf as settings
+from urllib import quote_plus
+from django.utils.html import strip_tags
+from smsaero import conf as settings
 from models import Signature
 from models import SMSMessage
-import logging
 
 logger = logging.getLogger('smsaero')
 
 
 class SmsSender():
     PROTOCOL = 'http'
-    URL = 'gate.smsaero.ru'
+    HOST = 'gate.smsaero.ru'
 
     def send_request(self, link, params):
         params['user'] = settings.SMSAERO_USER
         params['password'] = self._get_password()
-        url = '%s://%s%s%s' % (
+
+        url = '%s://%s%s?%s' % (
             self.PROTOCOL,
-            self.URL,
-            quote_plus(link),
-            urlencode(params),
+            self.HOST,
+            link,
+            '&'.join('%s=%s' % i for i in params.items()),
         )
         try:
             response = urllib2.urlopen(url)
-            return response.read()
+            return strip_tags(response.read()).strip()
+        except urllib2.URLError:
+            logger.error('connection error', exc_info=True)
+            return 'connection error'
         except urllib2.HTTPErrorProcessor:
             logger.error('connection error', exc_info=True)
             return 'connection error'
@@ -58,12 +63,17 @@ def send_sms(to, text, signature_id=None, date=None, link='/send/'):
     signature = sender.get_signature(signature_id)
     params = {
         'to': to,
-        'text': text,
+        'text': quote_plus(text),
         'from': signature.name,
         'date': date or '',
     }
     response = sender.send_request(link, params)
     sms_id, status = sender.parse_response(response)
+
+    if not sms_id or not status:
+        msg = 'Can not send SMS to %s. Status: %s' % (to, sms_id)
+        logger.error(msg)
+        raise Exception(msg)
 
     sms = SMSMessage(
         phone=to,
