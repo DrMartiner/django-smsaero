@@ -19,6 +19,7 @@ build
 dist
 *.egg-info
 logfile.log
+db.sqlite3
 
 build/*
 dist/*
