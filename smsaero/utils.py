@@ -3,6 +3,7 @@
 import logging
 import urllib2
 from hashlib import md5
+from django_rq import job
 from urllib import quote_plus
 from django.utils.html import strip_tags
 from smsaero import conf as settings
@@ -101,3 +102,23 @@ def get_balance(link='/balance/'):
 def get_signatures_name(link='/senders/'):
     response = sender.send_request({}, link)
     return [n for n in response.split('\n') if n]
+
+
+@job('default')
+def send_sms_async(*args, **kwargs):
+    return send_sms(*args, **kwargs)
+
+
+@job('default')
+def get_sms_status_async(*args, **kwargs):
+    return get_sms_status(*args, **kwargs)
+
+
+@job('default')
+def get_balance_async(*args, **kwargs):
+    return get_balance(*args, **kwargs)
+
+
+@job('default')
+def get_signatures_name_async(*args, **kwargs):
+    return get_signatures_name(*args, **kwargs)
