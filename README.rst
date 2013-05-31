@@ -13,7 +13,18 @@ Quick start
       INSTALLED_APPS = (
             ...
             'smsaero',
+            'django_rq', # if you want use the queue of Redis
       )
+
+      # if you want use the queue of Redis
+      RQ_QUEUES = {
+            'default': {
+                'HOST': 'localhost',
+                'PORT': 6379,
+                'DB': 0,
+                'PASSWORD': '',
+            },
+        }
 
 2. Define SMSAERO_USER and SMSAERO_PASSWORD (raw password) or SMSAERO_PASSWORD_MD5 (hash of password) at settings.py::
 
@@ -53,6 +64,9 @@ Send SMS, check the SMS status, get account balance and get signatures::
       
       # Get array of signature names
       print get_signatures_name() # Array of string
+
+Running workers::
+      python manage.py rqworker default
 
 Async send SMS::
 
