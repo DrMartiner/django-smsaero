@@ -23,7 +23,7 @@ Quick start
       SMSAERO_PASSWORD = '123'
       
 
-3. Run ```bash python manage.py syncdb``` to create the smsaero models.
+3. Run ```python manage.py syncdb``` to create the smsaero models.
 
 4. Start the development server and visit http://127.0.0.1:8000/admin/
    to create a smsaero (you'll need the Admin app enabled).

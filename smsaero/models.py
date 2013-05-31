@@ -54,13 +54,13 @@ class SMSMessage(models.Model):
     signature = models.ForeignKey(Signature, verbose_name='Подпись')
     text = models.TextField('Текст')
     sms_id = models.IntegerField('ID SMS', db_index=True, blank=True, null=True, editable=False)
-    status = models.CharField('Статус', max_length=128)
+    status = models.CharField('Статус', max_length=128, choices=STATUS_CHOICES)
     created = models.DateTimeField('Создано', auto_now_add=True)
 
     def __unicode__(self):
         return '{0} <{1}>'.format(self.phone, self.get_status_display())
 
     class Meta:
-        ordering = ('created', )
+        ordering = ('-created', )
         verbose_name = 'Сообщение'
         verbose_name_plural = 'SMS сообщения'
