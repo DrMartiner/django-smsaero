@@ -14,6 +14,15 @@ DATABASES = {
     }
 }
 
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+        'PASSWORD': '',
+    },
+}
+
 SMSAERO_USER = ''
 SMSAERO_PASSWORD = ''
 SMSAERO_PASSWORD_MD5 = ''
@@ -29,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'factory',
     'smsaero',
+    'django_rq',
 )
 
 LOGGING = {
