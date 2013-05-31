@@ -24,7 +24,7 @@ class SmsSenderTest(TestCase):
     @patch('urllib2.urlopen', _fake_urlopen)
     def test_send_request(self):
         sender = SmsSender()
-        response = sender.send_request('/link/', {})
+        response = sender.send_request({}, '/link/')
         self.assertIn(SMSMessage.STATUS_ACCEPTED, response)
 
     @patch('smsaero.conf.SMSAERO_PASSWORD', 'FAKE')
