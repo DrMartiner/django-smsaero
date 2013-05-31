@@ -4,8 +4,6 @@ Dajngo SMS Aero
 
 Simple Django application for send SMS via smsaero.ru
 
-Detailed documentation is in the "docs" directory.
-
 =====
 Quick start
 =====
@@ -21,7 +19,9 @@ Quick start
 
       SMSAERO_USER = 'username'
       SMSAERO_PASSWORD = '123'
-      
+      # or
+      SMSAERO_PASSWORD_MD5 = '202cb962ac59075b964b07152d234b70'
+
 
 3. Run ```python manage.py syncdb``` to create the smsaero models.
 
@@ -46,10 +46,31 @@ Send SMS, check the SMS status, get account balance and get signatures::
       print sms.get_status_display() # status
       
       # Check SMS status
-      status = get_sms_status(sms.status) # returned string
+      status = get_sms_status(sms.sms_id) # returned string
       
       # Get balance of accaunt
       print get_balance() # returned the rubbles
       
       # Get array of signature names
       print get_signatures_name() # Array of string
+
+Async send SMS::
+
+      from smsaero.urils import send_sms_async
+      from smsaero.urils import get_sms_status_async
+      from smsaero.urils import get_balance_async
+      from smsaero.urils import get_signatures_name_async
+      from smsaero.models import SMSMessage
+
+      # Send SMS
+      job = send_sms_async('79998881122', 'Some text...')
+      job.result # result has SMSMessage type
+
+      job = get_sms_status_async(sms.sms_id)
+      job.result # return string
+
+      job = get_balance_asunc()
+      job.result # returned the rubbles
+
+      job = get_signatures_name()
+      job.result # Array of string
