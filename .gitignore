@@ -20,6 +20,8 @@ dist
 *.egg-info
 logfile.log
 db.sqlite3
+sms_send.log
+1.3
 
 build/*
 dist/*
