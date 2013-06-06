@@ -68,7 +68,7 @@ def send_sms(to, text, signature_id=None, date=None, link='/send/'):
         'from': signature.name,
         'date': date or '',
     }
-    response = sender.send_request(link, params)
+    response = sender.send_request(params, link)
     sms_id, status = sender.parse_response(response)
 
     if not sms_id or not status:
