@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Signature(models.Model):
@@ -50,7 +51,7 @@ class SMSMessage(models.Model):
         (STATUS_INCORRECT_ID, 'Неверный идентификатор сообщения'),
     )
 
-    phone = models.CharField('Телефон', max_length=10) # TODO: realise phone num validator
+    phone = PhoneNumberField('Телефон')
     signature = models.ForeignKey(Signature, verbose_name='Подпись')
     text = models.TextField('Текст')
     sms_id = models.IntegerField('ID SMS', db_index=True, blank=True, null=True, editable=False)
@@ -58,7 +59,7 @@ class SMSMessage(models.Model):
     created = models.DateTimeField('Создано', auto_now_add=True)
 
     def __unicode__(self):
-        return '{0} <{1}>'.format(self.phone, self.get_status_display())
+        return u'{0} <{1}>'.format(self.phone, self.get_status_display())
 
     class Meta:
         ordering = ('-created', )

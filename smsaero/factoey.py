@@ -15,7 +15,7 @@ class SMSMessageF(factory.Factory):
     FACTORY_FOR = SMSMessage
 
     sms_id = factory.Sequence(lambda n: n)
-    phone = factory.Sequence(lambda n: '7123456789{0}'.format(n))
+    phone = factory.Sequence(lambda n: '+7123456789{0}'.format(n))
     signature = factory.LazyAttribute(lambda a: SignatureF())
     text = factory.Sequence(lambda n: 'Message{0}'.format(n))
-    status = SMSMessage.STATUS_CONNECTION
+    status = SMSMessage.STATUS_ACCEPTED

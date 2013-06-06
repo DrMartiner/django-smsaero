@@ -52,7 +52,7 @@ Send SMS, check the SMS status, get account balance and get signatures::
       from smsaero.models import SMSMessage
       
       # Send SMS
-      sms = send_sms('79998881122', 'Some text...') # sms has SMSMessage type
+      sms = send_sms('+79998881122', 'Some text...') # sms has SMSMessage type
       print sms.sms_id # id of accepted message
       print sms.get_status_display() # status
       
@@ -77,7 +77,7 @@ Async send SMS::
       from smsaero.models import SMSMessage
 
       # Send SMS
-      job = send_sms_async('79998881122', 'Some text...')
+      job = send_sms_async('+79998881122', 'Some text...')
       job.result # result has SMSMessage type
 
       job = get_sms_status_async(sms.sms_id)

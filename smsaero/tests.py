@@ -97,7 +97,7 @@ class SmsAeroAPITest(TestCase):
         signature = SignatureF()
         signature.save()
 
-        sent_sms = send_sms('71234567890', 'Message0')
+        sent_sms = send_sms('+71234567890', 'Message0')
         sms = SMSMessageF()
 
         self.assertEquals(sent_sms.phone, sms.phone, 'Not equals phone of sent SMS')
