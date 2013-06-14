@@ -67,14 +67,14 @@ class SmsSender():
 sender = SmsSender()
 
 
-def send_sms(to, text, signature_id=None, date=None, link='/send/'):
+def send_sms(phone, text, signature_id=None, date=None, link='/send/'):
     signature = sender.get_signature(signature_id)
     if not signature:
         Exception('Have not not one signature')
         return
 
     params = {
-        'to': to,
+        'to': phone,
         'text': quote_plus(text),
         'from': signature.name,
         'date': date or '',
@@ -83,12 +83,12 @@ def send_sms(to, text, signature_id=None, date=None, link='/send/'):
     sms_id, status = sender.parse_response(response)
 
     if not sms_id or not status:
-        msg = 'Can not send SMS to %s. Status: %s' % (to, sms_id)
+        msg = 'Can not send SMS to %s. Status: %s' % (phone, sms_id)
         logger.error(msg)
         raise Exception(msg)
 
     sms = SMSMessage(
-        phone=to,
+        phone=phone,
         signature=signature,
         text=text,
         sms_id=sms_id,
