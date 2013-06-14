@@ -9,8 +9,8 @@ from .utils import get_sms_status
 from .utils import get_balance
 from .utils import get_signatures_name
 from .models import SMSMessage
-from .factoey import SignatureF
-from .factoey import SMSMessageF
+from .factories import SignatureF
+from .factories import SMSMessageF
 
 
 class SmsSenderTest(TestCase):
