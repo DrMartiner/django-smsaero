@@ -17,7 +17,7 @@ tests_require = [
 
 setup(
     name='django-smsaero',
-    version='0.9.1',
+    version='0.9.2',
     packages=['smsaero'],
     include_package_data=True,
     license='MIT',
