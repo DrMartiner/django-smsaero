@@ -52,9 +52,16 @@ class SmsSender():
 
     def get_signature(self, signature_id=None):
         if signature_id:
-            return Signature.objects.get(pk=signature_id)
+            try:
+                return Signature.objects.get(pk=signature_id)
+            except Signature.DoesNotExist:
+                pass
         else:
-            return Signature.objects.all()[0]
+            try:
+                return Signature.objects.all()[0]
+            except IndexError:
+                pass
+        return
 
 
 sender = SmsSender()
@@ -62,6 +69,10 @@ sender = SmsSender()
 
 def send_sms(to, text, signature_id=None, date=None, link='/send/'):
     signature = sender.get_signature(signature_id)
+    if not signature:
+        Exception('Have not not one signature')
+        return
+
     params = {
         'to': to,
         'text': quote_plus(text),
