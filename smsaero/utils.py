@@ -69,7 +69,12 @@ sender = SmsSender()
 
 
 def send_sms(phone, text, signature_id=None, date=None, link='/send/'):
-    match = re.search('^\+{0,1}\d{11}$', phone)
+    phone = phone.replace(' ', '')\
+        .replace('-', '')\
+        .replace('(', '')\
+        .replace(')', '')
+
+    match = re.search('^\+?\d{11}$', phone)
     if not match:
         Exception('Not valid phone')
         return
@@ -80,7 +85,7 @@ def send_sms(phone, text, signature_id=None, date=None, link='/send/'):
         return
 
     params = {
-        'to': phone,
+        'to': phone.replace('+', ''),
         'text': quote_plus(text),
         'from': signature.name,
         'date': date or '',

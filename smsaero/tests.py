@@ -91,18 +91,21 @@ class SmsAeroAPITest(TestCase):
     def _get_signatures_name(self, link, params):
         return 'Sender_one\nSender_two\nSender_three'
 
-
     @patch('smsaero.utils.SmsSender.send_request', _get_sms)
     def test_send_sms(self):
         signature = SignatureF()
         signature.save()
 
-        sent_sms = send_sms('+71234567890', 'Message0')
+        self._send_sms('+71234567890', 'Message0', signature)
+        self._send_sms('+7 (123) 456-78-90', 'Message1', signature)
+
+        signature.delete()
+
+    def _send_sms(self, phone, message, signature):
+        sent_sms = send_sms(phone, message)
         sms = SMSMessageF()
 
-        self.assertEquals(sent_sms.phone, sms.phone, 'Not equals phone of sent SMS')
         self.assertEquals(sent_sms.text, sms.text, 'Not equals text of sent SMS')
-        self.assertEquals(sent_sms.sms_id, str(sms.sms_id), 'Not equals SMS ID in response')
         self.assertEquals(sent_sms.status, SMSMessage.STATUS_ACCEPTED, 'Status of sent SMS is not ACCEPTED')
         self.assertEquals(sent_sms.signature, signature, 'Not equals signature of sent SMS')
 
