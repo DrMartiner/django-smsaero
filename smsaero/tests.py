@@ -106,6 +106,13 @@ class SmsAeroAPITest(TestCase):
         self.assertEquals(sent_sms.status, SMSMessage.STATUS_ACCEPTED, 'Status of sent SMS is not ACCEPTED')
         self.assertEquals(sent_sms.signature, signature, 'Not equals signature of sent SMS')
 
+    @patch('smsaero.utils.SmsSender.send_request', _get_sms)
+    def test_send_to_invalid_number(self):
+        signature = SignatureF()
+        signature.save()
+
+        sent_sms = send_sms('+123', 'Message0')
+        self.assertIsNone(sent_sms, 'Sms was sent to invalid number')
 
     @patch('smsaero.utils.SmsSender.send_request', _get_status)
     def test_get_sms_status(self):

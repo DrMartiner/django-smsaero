@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import re
 import logging
 import urllib2
 from hashlib import md5
@@ -68,6 +69,11 @@ sender = SmsSender()
 
 
 def send_sms(phone, text, signature_id=None, date=None, link='/send/'):
+    match = re.search('^\+{0,1}\d{11}$', phone)
+    if not match:
+        Exception('Not valid phone')
+        return
+
     signature = sender.get_signature(signature_id)
     if not signature:
         Exception('Have not not one signature')
