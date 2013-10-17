@@ -88,8 +88,9 @@ def send_sms(phone, text, signature_id=None, date=None, link='/send/'):
         'to': phone.replace('+', ''),
         'text': quote_plus(text),
         'from': signature.name,
-        'date': date or '',
     }
+    if date:
+        params['date'] = date
     response = sender.send_request(params, link)
     sms_id, status = sender.parse_response(response)
 
