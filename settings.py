@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'factory',
     'smsaero',
     'django_rq',
+    'south',
 )
 
 LOGGING = {

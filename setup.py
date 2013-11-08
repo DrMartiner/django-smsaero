@@ -13,11 +13,12 @@ tests_require = [
     'coveralls',
     'factory_boy',
     'django-rq',
+    'south',
 ]
 
 setup(
     name='django-smsaero',
-    version='0.9.4',
+    version='0.9.5',
     packages=['smsaero'],
     include_package_data=True,
     license='MIT',
@@ -42,5 +43,6 @@ setup(
         'urllib3',
         'factory_boy',
         'django-rq',
+        'south',
     ],
 )

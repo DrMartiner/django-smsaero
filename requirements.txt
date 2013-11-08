@@ -5,3 +5,4 @@ coveralls
 factory_boy
 urllib3
 django-rq
+south
