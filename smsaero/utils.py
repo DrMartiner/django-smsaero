@@ -71,6 +71,7 @@ sender = SmsSender()
 def send_sms(phone, text, signature_id=None, date=None, link='/send/'):
     phone = phone.replace(' ', '')\
         .replace('-', '')\
+        .replace('+', '')\
         .replace('(', '')\
         .replace(')', '')
 
@@ -85,7 +86,7 @@ def send_sms(phone, text, signature_id=None, date=None, link='/send/'):
         return
 
     params = {
-        'to': phone.replace('+', ''),
+        'to': phone,
         'text': quote_plus(text),
         'from': signature.name,
     }

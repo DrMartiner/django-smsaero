@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Signature(models.Model):
@@ -51,7 +50,7 @@ class SMSMessage(models.Model):
         (STATUS_INCORRECT_ID, 'Неверный идентификатор сообщения'),
     )
 
-    phone = PhoneNumberField('Телефон')
+    phone = models.CharField('Телефон', max_length=11)
     signature = models.ForeignKey(Signature, verbose_name='Подпись')
     text = models.TextField('Текст')
     sms_id = models.IntegerField('ID SMS', db_index=True, blank=True, null=True, editable=False)
