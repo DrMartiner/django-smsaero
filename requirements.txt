@@ -3,5 +3,5 @@ nose
 mock==1.0.1
 coveralls
 factory_boy
-django-phonenumber-field
 urllib3
+django-rq

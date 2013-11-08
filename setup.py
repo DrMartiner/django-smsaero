@@ -12,7 +12,7 @@ tests_require = [
     'mock==1.0.1',
     'coveralls',
     'factory_boy',
-    'django-phonenumber-field',
+    'django-rq',
 ]
 
 setup(
@@ -41,6 +41,6 @@ setup(
     install_requires=[
         'urllib3',
         'factory_boy',
-        'django-phonenumber-field',
+        'django-rq',
     ],
 )
