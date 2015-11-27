@@ -45,10 +45,10 @@ Usage
 
 Send SMS, check the SMS status, get account balance and get signatures::
 
-      from smsaero.urils import send_sms
-      from smsaero.urils import get_sms_status
-      from smsaero.urils import get_balance
-      from smsaero.urils import get_signatures_name
+      from smsaero.utils import send_sms
+      from smsaero.utils import get_sms_status
+      from smsaero.utils import get_balance
+      from smsaero.utils import get_signatures_name
       from smsaero.models import SMSMessage
       
       # Send SMS
